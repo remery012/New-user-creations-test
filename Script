@@ -181,6 +181,9 @@ $logonname = "$username3@it.local"
 ## Target OU you are putting the user in ##
 $OU = "OU=Users (new),DC=it,DC=local"
 
+## Check is user exists ##
+$Checkuserexist = Get-ADUser -Filter {Name -eq $username4}        
+
 try {
 ## Checking if any writing is in the relevant boxes	
 if ($checkjobtitlebox) {
@@ -198,8 +201,13 @@ if ($checklastname) {
 if ($checkmanagerbox) {
     $outputbox.text = 'Nothing in Manager Box!'
 }
+if (-not ($Checkuserexist -eq $null)) {   
+    $outputbox.text = 'User Already Exists'
+}
 
 ## If all the above boxes are full or selected the below command will run
+
+
 
 else {
     ## Veriable for Clone Target
