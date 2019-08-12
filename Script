@@ -134,7 +134,7 @@ $clonetargettext.height         = 10
 $form.controls.add($clonetargettext)
 
 ## Template clone targets ##
-$templateNames                   = @("Lynn.Stevens")
+$templateNames                   = @("Template Name Here")
 $clonetarget                    = New-Object System.Windows.Forms.ComboBox
 $clonetarget.Size               = New-Object System.Drawing.Size(150, 20)
 $clonetarget.location           = New-Object System.Drawing.Point(282,27)
