@@ -11,21 +11,29 @@ Add-Type -AssemblyName System.Drawing
 ## Background Image ##
 $img = [System.Drawing.Image]::FromFile("C:\temp\Create New user\logo.jpg")
 
-$form = New-Object System.Windows.Forms.Form
-$Form.text = "Account creation"
-$Form.BackColor = "#4a90e2"
-$form.BackgroundImage = $img
-$Form.ClientSize = '468,300'
-$form.StartPosition = 'CenterScreen'
-$InitialFormWindowState = New-Object System.Windows.Forms.FormWindowState
+$form                            = New-Object System.Windows.Forms.Form
+$Form.text                       = "Account creation"
+$Form.BackColor                  = "#4a90e2"
+$form.BackgroundImage            = $img
+$Form.ClientSize                 = '468,300'
+$form.StartPosition              = 'CenterScreen'
+$InitialFormWindowState          = New-Object System.Windows.Forms.FormWindowState
 
 ## Create Account Button ##
-$Button = New-Object System.Windows.Forms.Button
-$Button.Location = New-Object System.Drawing.Point(282,57)
-$Button.Size = New-Object System.Drawing.Size(120,23)
-$Button.Text = "Create Account"
-$button.add_click($Button_onClick)
-$form.Controls.Add($Button)
+$Createaccount                   = New-Object System.Windows.Forms.Button
+$Createaccount.Location          = New-Object System.Drawing.Point(282,57)
+$Createaccount.Size              = New-Object System.Drawing.Size(120,23)
+$Createaccount.Text              = "Create Account"
+$Createaccount.add_click($Createaccount_onClick)
+$form.Controls.Add($Createaccount)
+
+## Close app button ##
+$Cancelbutton                    = New-Object System.Windows.Forms.Button
+$Cancelbutton.Location           = New-Object System.Drawing.Point(282,87)
+$Cancelbutton.Size               = New-Object System.Drawing.Size(120,23)
+$Cancelbutton.Text               = "Cancel"
+$Cancelbutton.add_click($Cancelbutton_onClick)
+$form.Controls.Add($Cancelbutton)
 
 ## First Name ##
 $FirstName                       = New-Object system.Windows.Forms.TextBox
@@ -156,7 +164,7 @@ $OnLoadForm_StateCorrection=
 	$form.WindowState = $InitialFormWindowState
 }
 
-$Button_onClick =  {
+$Createaccount_onClick =  {
 
 ## Clears text in rich text box
 $outputbox.Text = $outputbox.Text.Clear
@@ -261,6 +269,10 @@ Send-MailMessage -to $emailtomanager1 -Subject $EmailSubject -Body $EmailBody -F
 catch {
 }
 }
- 
+
+$Cancelbutton_onClick = {
+    $form.Close()
+}
+
 $form.add_Load($OnLoadForm_StateCorrection)   
 $form.ShowDialog()
