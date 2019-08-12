@@ -134,7 +134,7 @@ $clonetargettext.height         = 10
 $form.controls.add($clonetargettext)
 
 ## Template clone targets ##
-$templateNames                   = @("Template Name Here")
+$templateNames                   = @("nathan.hodge")
 $clonetarget                    = New-Object System.Windows.Forms.ComboBox
 $clonetarget.Size               = New-Object System.Drawing.Size(150, 20)
 $clonetarget.location           = New-Object System.Drawing.Point(282,27)
@@ -165,7 +165,6 @@ $checkFirstNamebox 			= $FirstName.TextLength -eq 0
 $checklastname 				= $Lastname.TextLength -eq 0
 $checkmanagerbox 			= $manager.TextLength -eq 0
 $checkjobtitlebox 			= $JobTitle.TextLength -eq 0
-$checkuserexists            = Get-ADUser -Identity $Username3
 
 ## These make the username = Firstname.lastname ##
 $Username1 = (($firstname).text)
@@ -198,9 +197,6 @@ if ($checklastname) {
 }
 if ($checkmanagerbox) {
     $outputbox.text = 'Nothing in Manager Box!'
-}
-if ($checkuserexists) {
-    $outputbox.text = 'User Already Exists'
 }
 
 ## If all the above boxes are full or selected the below command will run
