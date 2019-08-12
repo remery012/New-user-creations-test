@@ -1,0 +1,262 @@
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+[System.Windows.Forms.Application]::EnableVisualStyles()
+
+######################
+
+## Style of the Gui ##
+
+######################
+
+## Background Image ##
+$img = [System.Drawing.Image]::FromFile("C:\temp\Create New user\logo.jpg")
+
+$form = New-Object System.Windows.Forms.Form
+$Form.text = "Account creation"
+$Form.BackColor = "#4a90e2"
+$form.BackgroundImage = $img
+$Form.ClientSize = '468,300'
+$form.StartPosition = 'CenterScreen'
+$InitialFormWindowState = New-Object System.Windows.Forms.FormWindowState
+
+## Create Account Button ##
+$Button = New-Object System.Windows.Forms.Button
+$Button.Location = New-Object System.Drawing.Point(282,57)
+$Button.Size = New-Object System.Drawing.Size(120,23)
+$Button.Text = "Create Account"
+$button.add_click($Button_onClick)
+$form.Controls.Add($Button)
+
+## First Name ##
+$FirstName                       = New-Object system.Windows.Forms.TextBox
+$FirstName.multiline             = $false
+$FirstName.width                 = 100
+$FirstName.height                = 20
+$FirstName.location              = New-Object System.Drawing.Point(92,57)
+$FirstName.Font                  = 'Microsoft Sans Serif,10'
+$form.Controls.Add($FirstName)
+
+$FirstNametext                   = New-Object system.Windows.Forms.Label
+$FirstNametext.text              = "First Name"
+$FirstNametext.AutoSize          = $true
+$FirstNametext.width             = 25
+$FirstNametext.height            = 10
+$FirstNametext.BackColor          = "#9bcbeb"
+$FirstNametext.location          = New-Object System.Drawing.Point(16,59)
+$FirstNametext.Font              = 'Microsoft Sans Serif,10'
+$FirstNametext.ForeColor         = "#ffffff"
+$form.Controls.Add($FirstNametext)
+
+## Last Name ##
+$Lastname                        = New-Object system.Windows.Forms.TextBox
+$Lastname.multiline              = $false
+$Lastname.width                  = 100
+$Lastname.height                 = 20
+$Lastname.location               = New-Object System.Drawing.Point(92,87)
+$Lastname.Font                   = 'Microsoft Sans Serif,10'
+$form.Controls.Add($Lastname)
+
+$Lastnametext                    = New-Object system.Windows.Forms.Label
+$Lastnametext.text               = "Last Name"
+$Lastnametext.AutoSize           = $true
+$Lastnametext.width              = 25
+$Lastnametext.height             = 10
+$Lastnametext.BackColor          = "#9bcbeb"
+$Lastnametext.location           = New-Object System.Drawing.Point(16,89)
+$Lastnametext.Font               = 'Microsoft Sans Serif,10'
+$Lastnametext.ForeColor          = "#ffffff"
+$form.Controls.Add($Lastnametext)
+
+## Manager Name ##
+$ManagerText                     = New-Object system.Windows.Forms.Label
+$ManagerText.text                = "Manager"
+$ManagerText.AutoSize            = $true
+$ManagerText.width               = 25
+$ManagerText.height              = 10
+$ManagerText.BackColor          = "#9bcbeb"
+$ManagerText.location            = New-Object System.Drawing.Point(16,119)
+$ManagerText.Font                = 'Microsoft Sans Serif,10'
+$ManagerText.ForeColor           = "#ffffff"
+$form.Controls.Add($ManagerText)
+
+$Manager                         = New-Object system.Windows.Forms.TextBox
+$Manager.multiline               = $false
+$Manager.width                   = 100
+$Manager.height                  = 20
+$Manager.location                = New-Object System.Drawing.Point(92,117)
+$Manager.Font                    = 'Microsoft Sans Serif,10'
+$form.Controls.Add($Manager)
+
+## Job Title ##
+$JobTitle                        = New-Object system.Windows.Forms.TextBox
+$JobTitle.multiline              = $false
+$JobTitle.width                  = 100
+$JobTitle.height                 = 20
+$JobTitle.location               = New-Object System.Drawing.Point(92,147)
+$JobTitle.Font                   = 'Microsoft Sans Serif,10'
+$form.Controls.Add($JobTitle)
+
+$JobTitletext                    = New-Object system.Windows.Forms.Label
+$JobTitletext.text               = "Job Title"
+$JobTitletext.AutoSize           = $true
+$JobTitletext.width              = 25
+$JobTitletext.height             = 10
+$JobTitletext.BackColor          = "#9bcbeb"
+$JobTitletext.location           = New-Object System.Drawing.Point(16,149)
+$JobTitletext.Font               = 'Microsoft Sans Serif,10'
+$JobTitletext.ForeColor          = "#ffffff"
+$form.Controls.Add($JobTitletext)
+
+## Output box ##
+$outputbox                      = New-Object System.Windows.Forms.RichTextBox
+$outputbox.multiline        	= $true
+$outputbox.width            	= 455
+$outputbox.height           	= 50
+$outputbox.location         	= New-Object System.Drawing.Point(6,243)
+$outputbox.Font             	= 'Microsoft Sans Serif, 50'
+$outputbox.Text 				= ""
+$outputbox.font 				= "lucida console"
+$outputbox.ReadOnly             = $true
+$outputbox.ForeColor            = [Drawing.color]::red
+$outputbox.BackColor            = [Drawing.color]::white
+$form.Controls.Add($outputbox)
+
+## Templates to Clone ##
+$clonetargettext                = New-Object System.Windows.Forms.Label
+$clonetargettext.Location       = New-Object System.Drawing.Point(197,30)
+$clonetargettext.Text           = 'Clone Target' 
+$clonetargettext.BackColor      = "#9bcbeb"
+$clonetargettext.Font           = 'Microsoft Sans Serif,10'
+$clonetargettext.ForeColor      = "#ffffff"
+$clonetargettext.AutoSize       = $true
+$clonetargettext.width          = 25
+$clonetargettext.height         = 10
+$form.controls.add($clonetargettext)
+
+## Template clone targets ##
+$templateNames                   = @("Lynn.Stevens")
+$clonetarget                    = New-Object System.Windows.Forms.ComboBox
+$clonetarget.Size               = New-Object System.Drawing.Size(150, 20)
+$clonetarget.location           = New-Object System.Drawing.Point(282,27)
+$clonetarget.Font               = 'Microsoft Sans Serif,10'
+foreach($templateNamesinbox in $templateNames)
+{
+$clonetarget.Items.Add($templateNamesinbox)
+}
+$form.Controls.Add($clonetarget)
+
+######################
+
+##       Code       ##
+
+######################
+
+$OnLoadForm_StateCorrection=
+{
+	$form.WindowState = $InitialFormWindowState
+}
+
+$Button_onClick =  {
+
+## Clears text in rich text box
+$outputbox.Text = $outputbox.Text.Clear
+
+$checkFirstNamebox 			= $FirstName.TextLength -eq 0
+$checklastname 				= $Lastname.TextLength -eq 0
+$checkmanagerbox 			= $manager.TextLength -eq 0
+$checkjobtitlebox 			= $JobTitle.TextLength -eq 0
+$checkuserexists            = Get-ADUser -Identity $Username3
+
+## These make the username = Firstname.lastname ##
+$Username1 = (($firstname).text)
+$Username2 = (($lastname).text)
+$username3 = "$Username1.$username2"
+$username4 = "$username1 $username2"
+
+## Password Veriables ##
+$password = 'Password!'
+
+## Account Veriables ##
+$logonname = "$username3@it.local"
+
+## Target OU you are putting the user in ##
+$OU = "OU=Users (new),DC=it,DC=local"
+
+try {
+## Checking if any writing is in the relevant boxes	
+if ($checkjobtitlebox) {
+    $outputbox.text = 'Nothing in Job Title Box'
+}
+if ($checkfullname) {
+    $outputbox.text = 'Nothing in Full name Box'
+}
+if ($checkFirstNamebox) {
+    $outputbox.text = 'Nothing in first name Box' 
+}
+if ($checklastname) {
+    $outputbox.text = 'Nothing in Last Name Box'
+}
+if ($checkmanagerbox) {
+    $outputbox.text = 'Nothing in Manager Box!'
+}
+if ($checkuserexists) {
+    $outputbox.text = 'User Already Exists'
+}
+
+## If all the above boxes are full or selected the below command will run
+
+else {
+    ## Veriable for Clone Target
+    $cloneuser = Get-ADUser $clonetarget.Text -Properties c,co,company,countryCode,department,physicalDeliveryOfficeName,l,MemberOf,postalCode,postOfficeBox,st
+
+        $params = @{'Instance'           = $cloneuser;
+                    'GivenName'          = $FirstName.Text;
+                    'SurName'            = $Lastname.Text;
+                    'DisplayName'        = $username4;
+                    'userPrincipalName'  = $logonname;
+                    'enabled'            = $true;
+                    'Manager'            = $Manager.text;
+                    'AccountPassword'    = (ConvertTo-SecureString -AsPlainText $password -Force);
+                    'title'              = $JobTitle.Text;
+            }
+
+    new-aduser -name $username4 -SamAccountName $username3 @params
+   
+    ## Mirror all the groups the original account was a member of
+    Get-ADUser -Identity $clonetarget.text -Properties memberof |Select-Object -ExpandProperty memberof | Add-ADGroupMember -Members $username3 -PassThru | Select-Object -Property SamAccountName
+
+     ## Moves the user you just created to the OU assigned in $OU ##
+    Get-Aduser -Identity $username3 | Move-adobject -TargetPath $OU     
+
+    $emailtomanager = (($manager).text)
+    $emailtomanager1 = "$emailtomanager@tasplan.com.au"
+
+    ## Email to Manager
+    $PSEmailServer="Mail.tasplan.com.au"
+    $EmailSubject= "New Account for $username4" 
+    $EmailBody = "Hi,
+
+    I have been asked to create an account for $username4
+    Their user name is: $username3
+    Password is: $password
+    
+    Their phone number is XXXX
+    I have attached info about how to log in to the phones.
+    Their pin is 0000.
+    
+    In order to generate an email signature please log off and back on after opening outlook for the first time.
+    
+    Please contact IT if there are any issues with this user starting. 
+    
+    Thanks,
+    "
+
+Send-MailMessage -to $emailtomanager1 -Subject $EmailSubject -Body $EmailBody -From "itservicedesk@tasplan.com.au"
+	}
+}
+catch {
+}
+}
+ 
+$form.add_Load($OnLoadForm_StateCorrection)   
+$form.ShowDialog()
